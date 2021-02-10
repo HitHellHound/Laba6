@@ -8,8 +8,10 @@ public class MainFrame extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
+    private JMenuItem addBallMenuItem;
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
+    private JMenuItem addBlockMenuItem;
 
     private Field field = new Field();
 
@@ -18,20 +20,24 @@ public class MainFrame extends JFrame {
         setSize(WIDTH, HEIGHT);
         Toolkit kit = Toolkit.getDefaultToolkit();
         setLocation((kit.getScreenSize().width - WIDTH) / 2, (kit.getScreenSize().height - HEIGHT) / 2);
-        setExtendedState(MAXIMIZED_BOTH);
+        //setExtendedState(MAXIMIZED_BOTH);
 
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
         //Ball
         JMenu ballMenu = new JMenu("Ball");
+        menuBar.add(ballMenu);
         Action addBallAction = new AbstractAction("Create BALL") {
             public void actionPerformed(ActionEvent e) {
+                addBallMenuItem.setEnabled(false);
                 pauseMenuItem.setEnabled(true);
+                addBlockMenuItem.setEnabled(true);
             }
         };
-        menuBar.add(ballMenu);
-        ballMenu.add(addBallAction);
+        addBallMenuItem = ballMenu.add(addBallAction);
+        addBallMenuItem.setEnabled(true);
+        //
 
         //Control
         JMenu controlMenu = new JMenu("Control");
@@ -54,6 +60,20 @@ public class MainFrame extends JFrame {
         };
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
+        //
+
+        //Blocks
+        JMenu blocksMenu = new JMenu("Blocks");
+        menuBar.add(blocksMenu);
+
+        Action addBlockAction = new AbstractAction("Add BLOCK") {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+        addBlockMenuItem = blocksMenu.add(addBlockAction);
+        addBlockMenuItem.setEnabled(false);
+        //
 
         getContentPane().add(field, BorderLayout.CENTER);
     }
@@ -61,6 +81,7 @@ public class MainFrame extends JFrame {
     public static void main(String[] args){
         MainFrame frame = new MainFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }
