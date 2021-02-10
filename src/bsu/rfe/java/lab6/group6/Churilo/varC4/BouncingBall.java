@@ -14,6 +14,7 @@ public class BouncingBall implements Runnable{
 
     private double x;
     private double y;
+    private double angle;
 
     private int speed;
     private double speedX;
@@ -27,7 +28,7 @@ public class BouncingBall implements Runnable{
         if (speed > MAX_SPEED)
             speed = MAX_SPEED;
 
-        double angle = Math.random() * 2 * Math.PI;
+        angle = Math.random() * 2 * Math.PI;
         speedX = speed * Math.cos(angle);
         speedY = speed * Math.sin(angle);
 
@@ -44,8 +45,29 @@ public class BouncingBall implements Runnable{
         try{
             while (true){
                 field.canMove(this);
+                field.canMove(this);
+                if (x + speedX <= radius) {
+                    speedX = -speedX;
+                    x = radius;
+                } else
+                if (x + speedX >= field.getWidth() - radius) {
+                    speedX = -speedX;
+                    x = new Double(field.getWidth()-radius).intValue();
+                } else
+                if (y + speedY <= radius) {
+                    speedY = -speedY;
+                    y = radius;
+                } else
+                if (y + speedY >= field.getHeight() - radius) {
+                    speedY = -speedY;
+                    y = new Double(field.getHeight()-radius).intValue();
+                } else {
+                    x += speedX;
+                    y += speedY;
+                }
+
+                Thread.sleep(16 - speed);
             }
-            //Thread.sleep(16);
         }
         catch (InterruptedException ex){
 

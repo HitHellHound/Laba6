@@ -1,12 +1,13 @@
 package bsu.rfe.java.lab6.group6.Churilo.varC4;
 
 import java.awt.*;
-import java.awt.datatransfer.MimeTypeParseException;
 import java.awt.geom.Rectangle2D;
 
 public class BreakableBlock {
     private static final int MAX_HEAT_POINTS = 5;
     private static final int MIN_HEAT_POINTS = 1;
+
+    private static final BasicStroke BLOCK_STROKE = new BasicStroke(2.0f);
 
     private int HeatPoints;
     private double x;
@@ -28,9 +29,10 @@ public class BreakableBlock {
 
     public void paint(Graphics2D canvas){
         canvas.setColor(Color.BLACK);
-        canvas.setPaint(Color.ORANGE);
+        canvas.setStroke(BLOCK_STROKE);
         Rectangle2D.Double rec = new Rectangle2D.Double(x, y, x_size, y_size);
         canvas.draw(rec);
+        canvas.setPaint(Color.ORANGE);
         canvas.fill(rec);
     }
 }

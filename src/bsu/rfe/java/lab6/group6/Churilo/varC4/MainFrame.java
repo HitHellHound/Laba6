@@ -30,6 +30,7 @@ public class MainFrame extends JFrame {
         menuBar.add(ballMenu);
         Action addBallAction = new AbstractAction("Create BALL") {
             public void actionPerformed(ActionEvent e) {
+                field.addBall();
                 addBallMenuItem.setEnabled(false);
                 pauseMenuItem.setEnabled(true);
                 addBlockMenuItem.setEnabled(true);
@@ -45,6 +46,7 @@ public class MainFrame extends JFrame {
 
         Action pauseAction = new AbstractAction("Pause") {
             public void actionPerformed(ActionEvent e) {
+                field.pause();
                 pauseMenuItem.setEnabled(false);
                 resumeMenuItem.setEnabled(true);
             }
@@ -54,6 +56,7 @@ public class MainFrame extends JFrame {
 
         Action resumeAction = new AbstractAction("Resume") {
             public void actionPerformed(ActionEvent e) {
+                field.resume();
                 pauseMenuItem.setEnabled(true);
                 resumeMenuItem.setEnabled(false);
             }
@@ -68,7 +71,7 @@ public class MainFrame extends JFrame {
 
         Action addBlockAction = new AbstractAction("Add BLOCK") {
             public void actionPerformed(ActionEvent e) {
-
+                field.addBlock();
             }
         };
         addBlockMenuItem = blocksMenu.add(addBlockAction);
