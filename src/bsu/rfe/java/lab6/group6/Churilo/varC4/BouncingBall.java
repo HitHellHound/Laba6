@@ -1,5 +1,7 @@
 package bsu.rfe.java.lab6.group6.Churilo.varC4;
 
+import javafx.geometry.Point2D;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
@@ -41,11 +43,23 @@ public class BouncingBall implements Runnable{
         thisThread.start();
     }
 
+    public Point2D getCoordinates(){
+        return new Point2D(x, y);
+    }
+
+    public int getRadius(){
+        return radius;
+    }
+
+    public Point2D getSpeed(){
+        return new Point2D(speedX, speedY);
+    }
+
     public void run(){
         try{
             while (true){
                 field.canMove(this);
-                field.canMove(this);
+
                 if (x + speedX <= radius) {
                     speedX = -speedX;
                     x = radius;
@@ -62,16 +76,20 @@ public class BouncingBall implements Runnable{
                     speedY = -speedY;
                     y = new Double(field.getHeight()-radius).intValue();
                 } else {
-                    x += speedX;
-                    y += speedY;
+                    BreakableBlock block = field.blockTouched(this);
+                    if (block != null){
+
+                    } else {
+                        x += speedX;
+                        y += speedY;
+                    }
                 }
 
-                Thread.sleep(16 - speed);
+
+                Thread.sleep(11 - speed);
             }
         }
-        catch (InterruptedException ex){
-
-        }
+        catch (InterruptedException ex){ }
     }
 
     public void paint(Graphics2D canvas){

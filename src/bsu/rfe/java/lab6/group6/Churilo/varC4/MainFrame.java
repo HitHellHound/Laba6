@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 816;
+    private static final int HEIGHT = 661;
 
     private JMenuItem addBallMenuItem;
     private JMenuItem pauseMenuItem;

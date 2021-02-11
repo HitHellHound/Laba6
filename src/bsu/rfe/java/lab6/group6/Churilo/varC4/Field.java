@@ -49,9 +49,37 @@ public class Field extends JPanel {
 
         int x = countOfBlocks % BLOCKS_IN_ROW;
         int y = countOfBlocks / BLOCKS_IN_ROW;
-        blocks[y][x] = new BreakableBlock(x * getWidth() / BLOCKS_IN_ROW, y * getHeight() / BLOCKS_IN_ROW, getWidth() / BLOCKS_IN_ROW, getHeight() / BLOCKS_IN_ROW);
+        double blockWidth = getWidth() / BLOCKS_IN_ROW - 1;
+        double blockHeight = getHeight() / BLOCKS_IN_ROW - 1;
+        blocks[y][x] = new BreakableBlock(x * getWidth() / BLOCKS_IN_ROW, y * getHeight() / BLOCKS_IN_ROW, blockWidth, blockHeight);
         countOfBlocks++;
         return true;
+    }
+
+    public synchronized BreakableBlock blockTouched(BouncingBall ball){
+        double blockWidth = getWidth() / BLOCKS_IN_ROW - 1;
+        double blockHeight = getHeight() / BLOCKS_IN_ROW - 1;
+
+        double speedX = ball.getSpeed().getX();
+        double speedY = ball.getSpeed().getY();
+        double x = ball.getCoordinates().getX() + speedX;
+        double y = ball.getCoordinates().getY() + speedY;
+        int r = ball.getRadius();
+
+        if (blocks[new Double(y / blockHeight).intValue()][new Double((x - r) / blockWidth).intValue()] != null){
+            return blocks[new Double(y/blockHeight).intValue()][new Double((x - r) / blockWidth).intValue()];
+        }
+        if (blocks[new Double(y / blockHeight).intValue()][new Double((x + r) / blockWidth).intValue()] != null){
+            return blocks[new Double(y / blockHeight).intValue()][new Double((x + r) / blockWidth).intValue()];
+        }
+        if (blocks[new Double((y - r) / blockHeight).intValue()][new Double(x / blockWidth).intValue()] != null){
+            return blocks[new Double((y - r) / blockHeight).intValue()][new Double(x / blockWidth).intValue()];
+        }
+        if (blocks[new Double((y + r) / blockHeight).intValue()][new Double(x / blockWidth).intValue()] != null){
+            return blocks[new Double((y + r) / blockHeight).intValue()][new Double(x / blockWidth).intValue()];
+        }
+
+        return null;
     }
 
     public synchronized void pause() {
