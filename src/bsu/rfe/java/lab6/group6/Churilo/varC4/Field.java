@@ -47,24 +47,43 @@ public class Field extends JPanel {
         if (countOfBlocks >= MAX_COUNT_OF_BLOCKS)
             return false;
 
-        int x = countOfBlocks % BLOCKS_IN_ROW;
-        int y = countOfBlocks / BLOCKS_IN_ROW;
-        double blockWidth = getWidth() / BLOCKS_IN_ROW - 1;
-        double blockHeight = getHeight() / BLOCKS_IN_ROW - 1;
-        blocks[y][x] = new BreakableBlock(x * getWidth() / BLOCKS_IN_ROW, y * getHeight() / BLOCKS_IN_ROW, blockWidth, blockHeight);
+        int r = new Double(Math.random() * BLOCKS_IN_ROW * BLOCKS_IN_ROW).intValue();
+        if (r == BLOCKS_IN_ROW * BLOCKS_IN_ROW)
+            r = BLOCKS_IN_ROW * BLOCKS_IN_ROW - 1;
+
+        int x = r % BLOCKS_IN_ROW;
+        int y = r / BLOCKS_IN_ROW;
+        double blockWidth = getWidth() / BLOCKS_IN_ROW;
+        double blockHeight = getHeight() / BLOCKS_IN_ROW;
+        blocks[y][x] = new BreakableBlock(this,x * getWidth() / BLOCKS_IN_ROW, y * getHeight() / BLOCKS_IN_ROW, blockWidth, blockHeight);
         countOfBlocks++;
         return true;
     }
 
+    public void deleteBlock(BreakableBlock block){
+        for (int i = 0; i < BLOCKS_IN_ROW; i++){
+            for (int j = 0; j < BLOCKS_IN_ROW; j++){
+                if (blocks[i][j] == block){
+                    blocks[i][j] = null;
+                    countOfBlocks--;
+                    return;
+                }
+            }
+        }
+    }
+
     public synchronized BreakableBlock blockTouched(BouncingBall ball){
-        double blockWidth = getWidth() / BLOCKS_IN_ROW - 1;
-        double blockHeight = getHeight() / BLOCKS_IN_ROW - 1;
+        double blockWidth = getWidth() / BLOCKS_IN_ROW;
+        double blockHeight = getHeight() / BLOCKS_IN_ROW;
 
         double speedX = ball.getSpeed().getX();
         double speedY = ball.getSpeed().getY();
         double x = ball.getCoordinates().getX() + speedX;
         double y = ball.getCoordinates().getY() + speedY;
         int r = ball.getRadius();
+//        System.out.println((x + r) + " " + (y + r));
+//        System.out.println(blockWidth + " " + blockHeight);
+//        System.out.println(new Double((x + r) / blockWidth).intValue() + " " + new Double((y + r) / blockHeight).intValue());
 
         if (blocks[new Double(y / blockHeight).intValue()][new Double((x - r) / blockWidth).intValue()] != null){
             return blocks[new Double(y/blockHeight).intValue()][new Double((x - r) / blockWidth).intValue()];

@@ -59,7 +59,6 @@ public class BouncingBall implements Runnable{
         try{
             while (true){
                 field.canMove(this);
-
                 if (x + speedX <= radius) {
                     speedX = -speedX;
                     x = radius;
@@ -78,7 +77,59 @@ public class BouncingBall implements Runnable{
                 } else {
                     BreakableBlock block = field.blockTouched(this);
                     if (block != null){
+                        double w = block.getWidth();
+                        double h = block.getHeight();
+                        double xb = block.getCoordinates().getX();
+                        double yb = block.getCoordinates().getY();
 
+                        double x_new = x + speedX;
+                        double y_new = y + speedY;
+
+                        if (xb <= x && x <= xb + w && y < yb) {
+                            speedY = -speedY;
+                        } else
+                        if (xb <= x && x <= xb + w && y > yb + h) {
+                            speedY = -speedY;
+                        } else
+                        if (yb <= y && y < yb + h && x < xb) {
+                            speedX = -speedX;
+                        } else
+                        if (yb <= y && y < yb + h && x > xb + w) {
+                            speedX = -speedX;
+                        } else
+                        if (x < xb && y < yb){
+                            if (Math.abs(x - xb) / speedX < Math.abs(y - yb) / speedY){
+                                speedX = -speedX;
+                            }
+                            else {
+                                speedY = -speedY;
+                            }
+                        } else
+                        if (x > xb + w && y < yb){
+                            if (Math.abs(x - xb - w) / speedX < Math.abs(y - yb) / speedY){
+                                speedX = -speedX;
+                            }
+                            else {
+                                speedY = -speedY;
+                            }
+                        } else
+                        if (x < xb && y > yb + h){
+                            if (Math.abs(x - xb) / speedX < Math.abs(y - yb - h) / speedY){
+                                speedX = -speedX;
+                            }
+                            else {
+                                speedY = -speedY;
+                            }
+                        } else
+                        if (x > xb + w && y > yb + h){
+                            if (Math.abs(x - xb - w) / speedX < Math.abs(y - yb - h) / speedY){
+                                speedX = -speedX;
+                            }
+                            else {
+                                speedY = -speedY;
+                            }
+                        }
+                        block.reduceHP();
                     } else {
                         x += speedX;
                         y += speedY;
